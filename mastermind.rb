@@ -41,7 +41,9 @@
 
 NUM_SLOTS = 4
 NUM_CHOICES = 5
+NUM_GUESSES = 10
 
+# can be used for codemaker or for codebreaker guesses
 def user_pattern(num_slots, num_choices, _pattern = [])
   puts "Choose a #{num_slots}-digit pattern. Numbers must be between 0 and #{num_choices - 1} (duplicates OK)."
   gets.chomp.split('')
@@ -52,6 +54,7 @@ def contains_digits_only(string)
   string.scan(/\D/).empty?
 end
 
+# can be used to validate codemaker input and codebreaker guesses
 def validate_user_pattern(pattern, num_slots)
   return false if pattern.length != num_slots
   return false unless contains_digits_only(pattern)
@@ -66,8 +69,36 @@ def random_pattern(num_slots, num_choices, pattern = [])
   pattern
 end
 
+def initialize_guesses(num_guesses, num_slots)
+  guesses = {}
+  (0..num_guesses - 1).each { |i| guesses[i] = Array.new(num_slots, nil) }
+  guesses
+end
+
+def show_codebreaker_table; end
+
+def format(pattern, num_slots)
+  pattern.to_s.ljust(num_slots * 2)
+end
+
 rand_patt = random_pattern(NUM_SLOTS, NUM_CHOICES)
+puts "Codebreaker pattern: #{rand_patt.join(' ')} "
 
-user_patt = user_pattern(NUM_SLOTS, NUM_CHOICES)
+# user_patt = user_pattern(NUM_SLOTS, NUM_CHOICES)
+# puts validate_user_pattern(user_patt, NUM_SLOTS)
 
-puts validate_user_pattern(user_patt, NUM_SLOTS)
+# initialize the gussess hash
+guesses = initialize_guesses(NUM_GUESSES, NUM_SLOTS)
+
+# make a guess and add it to the hash
+puts 'Make a guess'
+guesses[0] = user_pattern(NUM_SLOTS, NUM_CHOICES)
+
+# function to make suggestions based on guess, i.e. to produce this string ' ● ◑ ◑ ◌'
+# which will get appended to the summary table
+
+# preview the table
+NUM_GUESSES.times do |i|
+  patt = guesses[i].join(' ')
+  puts "#{i} | #{format(patt, NUM_SLOTS)} |" << ' ● ◑ ◑ ◌'
+end
