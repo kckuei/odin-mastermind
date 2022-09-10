@@ -37,4 +37,37 @@
 # [12 digit: -] 6. 4043  2A21  (the switch didn't work, try another one)
 # [12 digit: -] 7. 4034  4A01  (you win!)
 
-puts '1 ... 0 2 3 4 | ● ◑ ◑ ◌'
+# puts '1 ... 0 2 3 4 | ● ◑ ◑ ◌'
+
+NUM_SLOTS = 4
+NUM_CHOICES = 5
+
+def user_pattern(num_slots, num_choices, _pattern = [])
+  puts "Choose a #{num_slots}-digit pattern. Numbers must be between 0 and #{num_choices - 1} (duplicates OK)."
+  gets.chomp.split('')
+end
+
+def contains_digits_only(string)
+  string = string.join if string.instance_of?(Array)
+  string.scan(/\D/).empty?
+end
+
+def validate_user_pattern(pattern, num_slots)
+  return false if pattern.length != num_slots
+  return false unless contains_digits_only(pattern)
+  return false if pattern.map(&:to_i).max > NUM_CHOICES - 1
+  return false if pattern.map(&:to_i).min.negative?
+
+  true
+end
+
+def random_pattern(num_slots, num_choices, pattern = [])
+  num_slots.times { |_i| pattern << Random.rand(num_choices) }
+  pattern
+end
+
+rand_patt = random_pattern(NUM_SLOTS, NUM_CHOICES)
+
+user_patt = user_pattern(NUM_SLOTS, NUM_CHOICES)
+
+puts validate_user_pattern(user_patt, NUM_SLOTS)
