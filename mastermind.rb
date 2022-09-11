@@ -142,20 +142,24 @@ def get_rounds(rounds = 3)
   rounds.to_i
 end
 
+# game intro
 fancy_intro
 
+# query game settings
 input = get_start_choice
-
 rounds = get_rounds
+
+## placeholder to do things with input and rounds
 
 rand_patt = random_pattern(NUM_SLOTS, NUM_CHOICES)
 puts "\nCODEMAKER has selected a pattern: #{rand_patt.join(' ')} "
-# puts "\nCODEMAKER has selected a pattern: * * * * "
+## puts "\nCODEMAKER has selected a pattern: * * * * "
 
-# initialize the gussess hash
+# initialize the guesses and feedback hashes
 guesses = initialize_hash(NUM_GUESSES, NUM_SLOTS)
 feedback = initialize_hash(NUM_GUESSES, NUM_SLOTS)
 
+# main event loop for one round (computer is maker, user is breaker)
 j = 0
 while j < NUM_GUESSES && !pattern_solved(feedback)
   puts "\nCODEBREAKER: Make a guess."
@@ -179,6 +183,5 @@ elsif j == NUM_GUESSES
 end
 puts "\nCODEMAKER pattern: #{rand_patt.join(' ')} "
 
-# Then implement computer guessing algorithm
 # Then refactor/brainstorm into OOP paradigm
 # Then tidy / format
