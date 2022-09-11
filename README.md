@@ -4,7 +4,7 @@ Toy Mastermind game implemented in console with `ruby`.
 ### Game Background
 * [Game wiki]((https://en.wikipedia.org/wiki/Mastermind_(board_game)))
 * [Primer](https://www.youtube.com/watch?v=dMHxyulGrEk)
-* [AI Strategy](https://puzzling.stackexchange.com/questions/546/clever-ways-to-solve-mastermind)
+* [Strategy-1](https://puzzling.stackexchange.com/questions/546/clever-ways-to-solve-mastermind) [Strategy-2](https://en.wikipedia.org/wiki/Mastermind_(board_game)#Worst_case:_Five-guess_algorithm)
 
 ### Overview
 * The gist:

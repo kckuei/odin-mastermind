@@ -185,3 +185,30 @@ puts "\nCODEMAKER pattern: #{rand_patt.join(' ')} "
 
 # Then refactor/brainstorm into OOP paradigm
 # Then tidy / format
+
+def solve_pattern_random(target_pattern, num_guesses, num_slots, num_choices)
+  # dumb algorithm, random guessing
+  guesses = initialize_hash(num_guesses, num_slots)
+  feedback = initialize_hash(num_guesses, num_slots)
+  j = 0
+  while j < num_guesses && !pattern_solved(feedback)
+    guesses[j] = random_pattern(num_slots, num_choices)
+    feedback[j] = give_feedback(target_pattern, guesses[j])
+    j += 1
+  end
+
+  render_codebreaker_table(guesses, feedback, num_guesses, num_slots)
+end
+
+def solve_pattern_five(pattern)
+  ## placeholder for knuth algorithm
+end
+
+# require 'set'
+# perms = [1,2,3].permutation.map { |x| x }
+# s = perms.to_set
+# s = Set.new(perms)
+# s.delete()
+# s.subset?(s2)
+
+solve_pattern_random(rand_patt, NUM_GUESSES, NUM_SLOTS, NUM_CHOICES)
