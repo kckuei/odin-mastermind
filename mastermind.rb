@@ -69,17 +69,34 @@ def random_pattern(num_slots, num_choices, pattern = [])
   pattern
 end
 
-def initialize_guesses(num_guesses, num_slots)
+# can be used for storing feedback and hashes
+def initialize_hash(num_guesses, num_slots)
   guesses = {}
   (0..num_guesses - 1).each { |i| guesses[i] = Array.new(num_slots, nil) }
   guesses
 end
 
-def show_codebreaker_table; end
-
 def format(pattern, num_slots)
   pattern.to_s.ljust(num_slots * 2)
 end
+
+def give_feedback(codemaker_pattern, codebreaker_pattern)
+  codebreaker_pattern = codebreaker_pattern.map(&:to_i)
+  codemaker_pattern = codemaker_pattern.map(&:to_i)
+  feedback = []
+  codebreaker_pattern.each_with_index do |elem, i|
+    feedback << if codemaker_pattern[i] == elem
+                  '●'
+                elsif codemaker_pattern.include?(elem)
+                  '◑'
+                else
+                  '◌'
+                end
+  end
+  feedback
+end
+
+def show_codebreaker_table; end
 
 rand_patt = random_pattern(NUM_SLOTS, NUM_CHOICES)
 puts "Codebreaker pattern: #{rand_patt.join(' ')} "
@@ -88,17 +105,20 @@ puts "Codebreaker pattern: #{rand_patt.join(' ')} "
 # puts validate_user_pattern(user_patt, NUM_SLOTS)
 
 # initialize the gussess hash
-guesses = initialize_guesses(NUM_GUESSES, NUM_SLOTS)
+guesses = initialize_hash(NUM_GUESSES, NUM_SLOTS)
+feedback = initialize_hash(NUM_GUESSES, NUM_SLOTS)
 
-# make a guess and add it to the hash
+# make a guess and add it to the guess/feedback hashes
 puts 'Make a guess'
 guesses[0] = user_pattern(NUM_SLOTS, NUM_CHOICES)
+feedback[0] = give_feedback(rand_patt, guesses[0])
 
 # function to make suggestions based on guess, i.e. to produce this string ' ● ◑ ◑ ◌'
 # which will get appended to the summary table
 
 # preview the table
 NUM_GUESSES.times do |i|
-  patt = guesses[i].join(' ')
-  puts "#{i} | #{format(patt, NUM_SLOTS)} |" << ' ● ◑ ◑ ◌'
+  guess_patt = guesses[i].join(' ')
+  feedb_patt = feedback[i].join(' ')
+  puts "#{i} | #{format(guess_patt, NUM_SLOTS)} |" << " #{format(feedb_patt, NUM_SLOTS)}"
 end
