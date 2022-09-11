@@ -39,6 +39,39 @@
 
 # puts '1 ... 0 2 3 4 | ● ◑ ◑ ◌'
 
+module Intro
+  ODIN = "         AN
+░█▀█░█▀▄░▀█▀░█▀█░░░█▀█░█▀▄░█▀█░█▀▄░█░█░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀
+░█░█░█░█░░█░░█░█░░░█▀▀░█▀▄░█░█░█░█░█░█░█░░░░█░░░█░░█░█░█░█░▀▀█
+░▀▀▀░▀▀░░▀▀▀░▀░▀░░░▀░░░▀░▀░▀▀▀░▀▀░░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀
+                                    PRESENTS
+\n\n".freeze
+
+  LOGO = "
+███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗██████╗
+████╗ ████║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗████╗ ████║██║████╗  ██║██╔══██╗
+██╔████╔██║███████║███████╗   ██║   █████╗  ██████╔╝██╔████╔██║██║██╔██╗ ██║██║  ██║
+██║╚██╔╝██║██╔══██║╚════██║   ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║██║  ██║
+██║ ╚═╝ ██║██║  ██║███████║   ██║   ███████╗██║  ██║██║ ╚═╝ ██║██║██║ ╚████║██████╔╝
+╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═════╝
+                                                   CODE-BREAKERS VERSUS CODE-MAKERS
+\n\n".freeze
+
+  def cls
+    system('cls')
+  end
+
+  def fancy_intro
+    cls
+    puts ODIN
+    sleep(1.2)
+    cls
+    puts LOGO
+    puts "\n\nEnter any key to continue."
+    gets
+  end
+end
+
 NUM_SLOTS = 4
 NUM_CHOICES = 5
 NUM_GUESSES = 10
@@ -122,3 +155,11 @@ NUM_GUESSES.times do |i|
   feedb_patt = feedback[i].join(' ')
   puts "#{i} | #{format(guess_patt, NUM_SLOTS)} |" << " #{format(feedb_patt, NUM_SLOTS)}"
 end
+
+# Next, implement one full game loop with user as codebreaker
+# Then refactor/brainstorm into OOP paradigm
+# Then implement computer guessing algorithm
+# Then tidy / format
+
+# include Intro
+# fancy_intro
