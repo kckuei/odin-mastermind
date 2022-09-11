@@ -129,32 +129,40 @@ def give_feedback(codemaker_pattern, codebreaker_pattern)
   feedback
 end
 
-def show_codebreaker_table; end
+def render_codebreaker_table(guesses, feedback, num_guesses, num_slots)
+  num_guesses.times do |i|
+    guess_patt = guesses[i].join(' ')
+    feedb_patt = feedback[i].join(' ')
+    puts "#{i} | #{format(guess_patt, num_slots)} |" << " #{format(feedb_patt, num_slots)}"
+  end
+end
+
+def pattern_solved(feedback)
+  feedback.each do |_key, value|
+    return true if value.count('●') == value.length
+  end
+  false
+end
 
 rand_patt = random_pattern(NUM_SLOTS, NUM_CHOICES)
 puts "Codebreaker pattern: #{rand_patt.join(' ')} "
-
-# user_patt = user_pattern(NUM_SLOTS, NUM_CHOICES)
-# puts validate_user_pattern(user_patt, NUM_SLOTS)
 
 # initialize the gussess hash
 guesses = initialize_hash(NUM_GUESSES, NUM_SLOTS)
 feedback = initialize_hash(NUM_GUESSES, NUM_SLOTS)
 
-# make a guess and add it to the guess/feedback hashes
-puts 'Make a guess'
-guesses[0] = user_pattern(NUM_SLOTS, NUM_CHOICES)
-feedback[0] = give_feedback(rand_patt, guesses[0])
+j = 0
+while j < NUM_GUESSES && !pattern_solved(feedback)
+  puts 'Make a guess'
+  guesses[j] = user_pattern(NUM_SLOTS, NUM_CHOICES)
+  feedback[j] = give_feedback(rand_patt, guesses[j])
 
-# function to make suggestions based on guess, i.e. to produce this string ' ● ◑ ◑ ◌'
-# which will get appended to the summary table
-
-# preview the table
-NUM_GUESSES.times do |i|
-  guess_patt = guesses[i].join(' ')
-  feedb_patt = feedback[i].join(' ')
-  puts "#{i} | #{format(guess_patt, NUM_SLOTS)} |" << " #{format(feedb_patt, NUM_SLOTS)}"
+  # preview the table
+  render_codebreaker_table(guesses, feedback, NUM_GUESSES, NUM_SLOTS)
+  j += 1
 end
+
+# Need validate code input=
 
 # Next, implement one full game loop with user as codebreaker
 # Then refactor/brainstorm into OOP paradigm
@@ -163,3 +171,6 @@ end
 
 # include Intro
 # fancy_intro
+
+# user_patt = user_pattern(NUM_SLOTS, NUM_CHOICES)
+# puts validate_user_pattern(user_patt, NUM_SLOTS)
