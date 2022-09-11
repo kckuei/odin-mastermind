@@ -26,10 +26,12 @@ module Intro
     sleep(1.2)
     cls
     puts LOGO
-    puts "\n\nEnter any key to continue."
+    print "\n\nEnter any key to continue.  "
     gets
   end
 end
+
+include Intro
 
 NUM_SLOTS = 4
 NUM_CHOICES = 5
@@ -103,8 +105,52 @@ def pattern_solved(feedback)
   false
 end
 
+def get_start_choice(input = '')
+  loop do
+    print "\nStart as code breaker (b) or maker (m) first?  "
+    input = gets.chomp.downcase
+    if input.include?('codebreaker') || input.include?('breaker') || input.include?('b')
+      input = 'breaker'
+      puts "\nUser has selected to begin as code#{input}."
+      break
+    elsif input.include?('codemaker') || input.include?('maker') || input.include?('m')
+      input = 'maker'
+      puts "\nUser has selected to begin as code#{input}."
+      break
+    else
+      "\nInvalid input: #{input}"
+    end
+  end
+  print "\nEnter any key to continue."
+  gets
+  input
+end
+
+def get_rounds(rounds = 3)
+  loop do
+    print "\nHow many rounds do you want to play (at least 1 round)?  "
+    rounds = gets.chomp
+    if contains_digits_only(rounds) && !rounds.empty? && !(rounds == '0')
+      puts "\nUser has selected to play #{rounds} rounds."
+      break
+    else
+      "\nInalid input: #{rounds}"
+    end
+  end
+  print "\nEnter any key to continue."
+  gets
+  rounds.to_i
+end
+
+fancy_intro
+
+input = get_start_choice
+
+rounds = get_rounds
+
 rand_patt = random_pattern(NUM_SLOTS, NUM_CHOICES)
-puts "Codebreaker pattern: #{rand_patt.join(' ')} "
+puts "\nCODEMAKER has selected a pattern: #{rand_patt.join(' ')} "
+# puts "\nCODEMAKER has selected a pattern: * * * * "
 
 # initialize the gussess hash
 guesses = initialize_hash(NUM_GUESSES, NUM_SLOTS)
@@ -126,15 +172,13 @@ while j < NUM_GUESSES && !pattern_solved(feedback)
   j += 1
 end
 
-# Need validate code input=
+if pattern_solved(feedback)
+  puts "\nYou guessed the correct pattern!"
+elsif j == NUM_GUESSES
+  puts "\nYou used up all your guesses!"
+end
+puts "\nCODEMAKER pattern: #{rand_patt.join(' ')} "
 
-# Next, implement one full game loop with user as codebreaker
-# Then refactor/brainstorm into OOP paradigm
 # Then implement computer guessing algorithm
+# Then refactor/brainstorm into OOP paradigm
 # Then tidy / format
-
-# include Intro
-# fancy_intro
-
-# user_patt = user_pattern(NUM_SLOTS, NUM_CHOICES)
-# puts validate_user_pattern(user_patt, NUM_SLOTS)
