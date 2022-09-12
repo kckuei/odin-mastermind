@@ -254,12 +254,20 @@ def main
     puts "\n============= END ROUND #{k} ============= "
   end
   if scores[:user] > scores[:comp]
-    puts "\nPlayer wins out of #{rounds} games! Final score #{scores[:user]}-#{scores[:comp]}."
+    puts "\nUser wins out of #{rounds} games played! Final score: #{scores[:user]}(USER)-#{scores[:comp]}(COMP)."
   elsif scores[:user] < scores[:comp]
-    puts "\nComputer wins out of #{rounds} games! Final score #{scores[:comp]}-#{scores[:user]}."
+    puts "\nComputer wins out of #{rounds} games played! Final score: #{scores[:comp]}(COMP)-#{scores[:user]}(USER)."
   else
-    puts "\nDraw out of #{rounds} games! Final score #{scores[:comp]}-#{scores[:user]}."
+    puts "\nDraw out of #{rounds} games! Final score: #{scores[:comp]}(COMP)-#{scores[:user]}(USER)."
   end
+
+  new_game
+end
+
+def new_game
+  puts "\nEnter any key to begin a new game."
+  gets
+  main
 end
 
 main

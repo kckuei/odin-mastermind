@@ -51,7 +51,7 @@ User has selected to play 1 rounds. Enter any key to continue.
 
 ============ START ROUND 0 ============ 
 
-CODEMAKER (CPU) has selected a pattern: 3 4 4 1 
+CODEMAKER (CPU) has selected a pattern: * * * * 
 
 CODEBREAKER (PLAYER): Make a guess.
 Choose a 4-digit pattern. Numbers must be between 0 and 4 (duplicates OK).
