@@ -9,17 +9,16 @@ Toy Mastermind command line game implemented with `ruby`.
 
 ### Overview
 * The gist:
-  * A codemaker picks a pattern (sequence of 4 numbers with digits between 0 and 4, and duplicates allowed)
-  * A codebreaker attempts to guess the pattern (i.e. the numbers and their positions)
-* The number of games is decided in advance. For each game, the codebreaker gets up to 10 guesses
-* The codemaker gets 1 pt for each guess/row utilized on the board by the codebreaker
-* The codemaker provides feedback for each guess by the codebreaker
-* Feedback key as follows:
+  * A codemaker picks a pattern (sequence of 4 numbers with digits between 0-4, duplicates allowed).
+  * A codebreaker attempts to guess the pattern (i.e. the numbers and their positions).
+* The number of games is decided in advance. The codebreaker is allowed 10 guesses each game.
+* The codemaker gets 1 pt for each guess/row utilized on the board by the codebreaker.
+* Each guess is provided feedback/response by the codemaker:
   * ● - correct number(color) and position
   * ◑ - correct number(color) and incorrect position
   * ◌ - incorrect number(color) and position
-* Roles are switched each round so computer and player plays both codemaker and codebreaker.
-* Points are tallied across all games to determine the winner
+* Roles are switched in each game so player and computer play as both code breaker and maker.
+* Points are tallied across all games to determine the winner.
 
 ### Example Game
 ```
@@ -138,6 +137,6 @@ CODEMAKER (PLAYER) pattern: 1 2 3 4
 Player wins out of 1 games! Final score 4-3
 ```
 
-### Future updates
+### Future Update Ideas
 1. Refactor and tidy code using an OOP paradigm
 2. Add option for direct user input for computer codebreaker feedback, and penalty point system for erroniously typed feedback
