@@ -1,5 +1,5 @@
 # odin-mastermind
-Toy Mastermind command line game implemented with `ruby`.
+Toy Mastermind command line game implemented with `ruby`. [point_rightLive demopoint_left.](https://replit.com/@KevinKuei/Mastermind#main.rb).
 
 ### Game Background
 * [Game wiki](https://en.wikipedia.org/wiki/Mastermind_(board_game))
