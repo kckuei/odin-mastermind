@@ -196,8 +196,8 @@ def main
     puts "\n============ START ROUND #{k} ============ "
 
     rand_patt = random_pattern(NUM_SLOTS, NUM_CHOICES)
-    puts "\nCODEMAKER (CPU) has selected a pattern: #{rand_patt.join(' ')} "
-    ## puts "\nCODEMAKER has selected a pattern: * * * * "
+    ##puts "\nCODEMAKER (CPU) has selected a pattern: #{rand_patt.join(' ')} "
+    puts "\nCODEMAKER (CPU) has selected a pattern: * * * * "
 
     # initialize the guesses and feedback hashes
     guesses = initialize_hash(NUM_GUESSES, NUM_SLOTS)
@@ -274,4 +274,3 @@ main
 
 # To do:
 # 1. Modularize main loop
-# 2. Then refactor/brainstorm into OOP paradigm then tidy and reformat
