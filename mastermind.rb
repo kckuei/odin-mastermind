@@ -132,13 +132,13 @@ def get_rounds(rounds = 3)
     print "\nHow many rounds do you want to play (at least 1 round)?  "
     rounds = gets.chomp
     if contains_digits_only(rounds) && !rounds.empty? && !(rounds == '0')
-      puts "\nUser has selected to play #{rounds} rounds."
+      print "\nUser has selected to play #{rounds} rounds. "
       break
     else
       "\nInalid input: #{rounds}"
     end
   end
-  print "\nEnter any key to continue."
+  print 'Enter any key to continue.'
   gets
   rounds.to_i
 end
@@ -179,50 +179,91 @@ def solve_pattern_five(target_pattern, num_guesses, num_slots, num_choices)
     j += 1
   end
   render_codebreaker_table(guesses, feedback, num_guesses, num_slots)
+  [guesses, feedback, j - 1]
 end
 
-solve_pattern_five([0, 2, 0, 4], NUM_GUESSES, NUM_SLOTS, NUM_CHOICES)
+def main
+  # game intro
+  fancy_intro
 
-# game intro
-fancy_intro
+  # query game settings
+  rounds = get_rounds
 
-# query game settings
-input = get_start_choice
-rounds = get_rounds
+  ## initialize user/comp scores
+  scores = { user: 0, comp: 0 }
 
-## placeholder to do things with input and rounds
+  rounds.times do |k|
+    puts "\n============ START ROUND #{k} ============ "
 
-rand_patt = random_pattern(NUM_SLOTS, NUM_CHOICES)
-puts "\nCODEMAKER has selected a pattern: #{rand_patt.join(' ')} "
-## puts "\nCODEMAKER has selected a pattern: * * * * "
+    rand_patt = random_pattern(NUM_SLOTS, NUM_CHOICES)
+    puts "\nCODEMAKER (CPU) has selected a pattern: #{rand_patt.join(' ')} "
+    ## puts "\nCODEMAKER has selected a pattern: * * * * "
 
-# initialize the guesses and feedback hashes
-guesses = initialize_hash(NUM_GUESSES, NUM_SLOTS)
-feedback = initialize_hash(NUM_GUESSES, NUM_SLOTS)
+    # initialize the guesses and feedback hashes
+    guesses = initialize_hash(NUM_GUESSES, NUM_SLOTS)
+    feedback = initialize_hash(NUM_GUESSES, NUM_SLOTS)
 
-# main event loop for one round (computer is maker, user is breaker)
-j = 0
-while j < NUM_GUESSES && !pattern_solved(feedback)
-  puts "\nCODEBREAKER: Make a guess."
+    # main event loop for one round : computer is maker, user is breaker
+    j = 0
+    while j < NUM_GUESSES && !pattern_solved(feedback)
+      puts "\nCODEBREAKER (PLAYER): Make a guess."
 
-  pattern = user_pattern(NUM_SLOTS, NUM_CHOICES)
-  until validate_user_pattern(pattern, NUM_SLOTS)
-    puts "\nInvalid input: #{pattern.join}"
+      pattern = user_pattern(NUM_SLOTS, NUM_CHOICES)
+      until validate_user_pattern(pattern, NUM_SLOTS)
+        puts "\nInvalid input: #{pattern.join}"
+        pattern = user_pattern(NUM_SLOTS, NUM_CHOICES)
+      end
+      guesses[j] = pattern
+      feedback[j] = give_feedback(rand_patt, guesses[j])
+
+      render_codebreaker_table(guesses, feedback, NUM_GUESSES, NUM_SLOTS)
+      j += 1
+    end
+
+    scores[:comp] += j - 1
+
+    if pattern_solved(feedback)
+      puts "\nYou guessed the correct pattern!"
+    elsif j == NUM_GUESSES
+      puts "\nYou used up all your guesses!"
+    end
+    puts "\nCODEMAKER (CPU) pattern: #{rand_patt.join(' ')} "
+
+    puts "\n------------- SWAP ROLES -------------- "
+
+    # main event loop for one round : user is maker, computer is breaker
+    puts "\nCODEMAKER (PLAYER): Select a pattern."
     pattern = user_pattern(NUM_SLOTS, NUM_CHOICES)
+    until validate_user_pattern(pattern, NUM_SLOTS)
+      puts "\nInvalid input: #{pattern.join}"
+      pattern = user_pattern(NUM_SLOTS, NUM_CHOICES)
+    end
+    puts "\nCODEBREAKER (CPU): Make a guess."
+    results = solve_pattern_five(pattern, NUM_GUESSES, NUM_SLOTS, NUM_CHOICES)
+    guesses = results[0]
+    feedback = results[1]
+    scores[:user] += results[2]
+
+    if pattern_solved(feedback)
+      puts "\nComputer guessed the correct pattern!"
+    elsif j == NUM_GUESSES
+      puts "\nComputer used up all your guesses!"
+    end
+    puts "\nCODEMAKER (PLAYER) pattern: #{pattern.join(' ')} "
+
+    puts "\n============= END ROUND #{k} ============= "
   end
-  guesses[j] = pattern
-  feedback[j] = give_feedback(rand_patt, guesses[j])
-
-  render_codebreaker_table(guesses, feedback, NUM_GUESSES, NUM_SLOTS)
-  j += 1
+  if scores[:user] > scores[:comp]
+    puts "\nPlayer wins out of #{rounds} games! Final score #{scores[:user]}-#{scores[:comp]}."
+  elsif scores[:user] < scores[:comp]
+    puts "\nComputer wins out of #{rounds} games! Final score #{scores[:comp]}-#{scores[:user]}."
+  else
+    puts "\nDraw out of #{rounds} games! Final score #{scores[:comp]}-#{scores[:user]}."
+  end
 end
 
-if pattern_solved(feedback)
-  puts "\nYou guessed the correct pattern!"
-elsif j == NUM_GUESSES
-  puts "\nYou used up all your guesses!"
-end
-puts "\nCODEMAKER pattern: #{rand_patt.join(' ')} "
+main
 
-# Then refactor/brainstorm into OOP paradigm
-# Then tidy / format
+# To do:
+# 1. Modularize main loop
+# 2. Then refactor/brainstorm into OOP paradigm then tidy and reformat
